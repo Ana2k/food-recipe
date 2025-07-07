@@ -14,7 +14,7 @@ export default function MealCard({meal, onClick}){
                 <img
                     className="mealCardThumb"
                     src={meal.strMealThumb}
-                    alt="Unavailable"
+                    alt={meal.strMeal || "Unavailable"}
                 />
                 <div className="mealCardRating">
                     {/* #Rating Star picture */}
