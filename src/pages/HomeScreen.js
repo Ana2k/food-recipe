@@ -5,6 +5,7 @@ import '../styles/MealCard.css'
 //TODO(8) : improve the HomeScreen.css values
 import '../styles/HomeScreen.css'
 import MealCard from "../components/MealCard";
+import avatar from '../assets/dummy-avatar.png'
 import {getAllCategories, getFoodByCategory} from '../network/api'
 
 export default function HomeScreen() {
@@ -37,13 +38,18 @@ export default function HomeScreen() {
     },[]);
 
     //TODO(4) : useEffect to show default as seaFood. 
-    //TODO --> COMPLETE THIS COMPLETELY!!!
+    //TODO --> FIX ERRORS HERE. 
     useEffect(() =>{
+        //MASSIVE ERRORS HERE -> Logical Errors on the following : 
+        // loader().then(...) --> Giving it a promise but a promise is not a callable function, hence its not a function....
         //take all the category
         const loader = selected === "All" 
         ? () => getFoodByCategory("Pasta") 
-        : getFoodByCategory(selected)
+        : () => getFoodByCategory(selected)
 
+        // You did not put the () => in the second selected. 
+        //What this did was created a promise of a function and not fulfill it for line : loader().then
+        // In next line so it becomes a constant API not a function - type error thus. 
         loader().then(data => setMeals(data.meals))
         .catch(err => console.error("MEAL LOAD FAILURE",err));
     },[selected]);
@@ -67,7 +73,7 @@ export default function HomeScreen() {
                     </div>
 
                     <img className="home-screen-avatar"
-                        src="../assets/dummy-avatar.png"
+                        src={avatar}
                         alt="Avatar"
                     />
                 </header>
