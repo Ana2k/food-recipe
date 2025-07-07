@@ -17,7 +17,7 @@
     height: 100px;
     overflow: hidden;
 }
-/* Meal-Card Thumbnail */
+/* Meal-Card Thumb inside Image Wrapper - to show meals.strMealThumb */
 .mealCardThumb{
     height: 100%;
     width: 100%;

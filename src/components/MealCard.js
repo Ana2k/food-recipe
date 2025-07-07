@@ -1,34 +1,33 @@
 //UI for the Meal-Card each meal card.
 import React from 'react'
-import '../styles/MealCard'
+import '../styles/MealCard.css'
+//Classnames from css : mealCard, mealCardImageWrapper, mealCardThumb, mealCardRating, mealCardStar, mealCardRatingValue,
+//mealCardInfo, mealCardTitle, mealCardOutline --> divnames to refer
 
-export default function MealCard((mealCardAPI)){
-    //TODO(1) : Call APIs appropriately in the HomeScreen page.
-    //TODO(2) : Attatch all the css elements with the API elements
-
-
-
-    //we should also get the API values for one card : "strMeal": "Baked salmon with fennel & tomatoes",
-    //   "strMealThumb": "https://www.themealdb.com/images/media/meals/1548772327.jpg",
-    //   "idMeal": "52959"
-    //strMeal, idMeal, strMealThumb = meal-api call values, for one call.
-    
-    // I want it to have clicking, I want it to have some of the dummy values. 
-    // I want it to have props that are relevant to the API I am calling it from. 
-
-    //What are the css elements I need to call?
-    //a click function onClick on mealCard.
-
+// - mealCard API name is --> meals -> strMeal, strMealThumb, idMeal.
+// - onClick for the click handling on top of the card itself.
+export default function MealCard({meals, onClick}){
     return(
-        <div className='meal-card' onClick={()=> onClick(mealCardAPI.idmeal)}>
-            {/* Card -> ImageWrapper -> In it thumbnail, rating, creator, descriptions. */}
-            <div className='meal-CardImageWrapper'>
-                <img>
-                className="mealCardThumb"
-                src={mealCardAPI.}
-                </img>
+        <div className="mealCard" onClick={()=> onClick(meals.idMeal)}>
+            {/* Image-Wrapper */}
+            <div className="mealCardImageWrapper">
+                <img
+                    className="mealCardThumb"
+                    src={meals.strMealThumb}
+                    alt="Unavailable"
+                />
+                <div className="mealCardRating">
+                    {/* #Rating Star picture */}
+                    <span className="mealCardStar">★</span>
+                    <span className="mealCardRatingValue">4.0</span>
+                </div>
             </div>
+            {/* Meal Card Info : Title and Outline(Creator) */}
+            <div className="mealCardInfo">
+                <h3 className="mealCardTitle">{meals.strMeal}</h3>
+                <p className="mealCardOutlin">By Chef Anushka</p>
             </div>
+        </div>
     )
 }
 
