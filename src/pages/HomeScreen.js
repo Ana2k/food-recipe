@@ -67,7 +67,8 @@ export default function HomeScreen() {
                     </div>
 
                     <img className="home-screen-avatar"
-                    src="../assets/dummy-avatar.png"
+                        src="../assets/dummy-avatar.png"
+                        alt="Avatar"
                     />
                 </header>
             </div>

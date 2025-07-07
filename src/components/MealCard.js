@@ -4,16 +4,16 @@ import '../styles/MealCard.css'
 //Classnames from css : mealCard, mealCardImageWrapper, mealCardThumb, mealCardRating, mealCardStar, mealCardRatingValue,
 //mealCardInfo, mealCardTitle, mealCardOutline --> divnames to refer
 
-// - mealCard API name is --> meals -> strMeal, strMealThumb, idMeal.
+// - mealCard API name is --> meal -> strMeal, strMealThumb, idMeal.
 // - onClick for the click handling on top of the card itself.
-export default function MealCard({meals, onClick}){
+export default function MealCard({meal, onClick}){
     return(
-        <div className="mealCard" onClick={()=> onClick(meals.idMeal)}>
+        <div className="mealCard" onClick={()=> onClick(meal.idMeal)}>
             {/* Image-Wrapper */}
             <div className="mealCardImageWrapper">
                 <img
                     className="mealCardThumb"
-                    src={meals.strMealThumb}
+                    src={meal.strMealThumb}
                     alt="Unavailable"
                 />
                 <div className="mealCardRating">
@@ -24,7 +24,7 @@ export default function MealCard({meals, onClick}){
             </div>
             {/* Meal Card Info : Title and Outline(Creator) */}
             <div className="mealCardInfo">
-                <h3 className="mealCardTitle">{meals.strMeal}</h3>
+                <h3 className="mealCardTitle">{meal.strMeal}</h3>
                 <p className="mealCardOutlin">By Chef Anushka</p>
             </div>
         </div>
