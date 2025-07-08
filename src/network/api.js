@@ -9,16 +9,36 @@ export async function getAllCategories(){
     return res.json()
 }
 
-
-export async function getFoodByCategory(category){
-
-    const URL_FOODCATEGORY = `/filter.php?c=${encodeURIComponent(category)}`
-    const res = await fetch(`${BASE}${URL_FOODCATEGORY}`)
+export async function getAllAreas(){
+    const URL_ALLAREAS = `/list.php?a=list`
+    const res = await fetch(`${BASE}${URL_ALLAREAS}`)
     return res.json()
 }
 
-export async function searchMealsByName(query){
-    const URL_FOODNAME = `/search.php?s=${encodeURIComponent(query)}`
-    const res = await fetch(`${BASE}${URL_FOODNAME}`)
+export async function getMealsByCategory(category){
+    const URL_FOODCATEGORY = `${BASE}/filter.php?c=${encodeURIComponent(category)}`
+    const res = await fetch(`${URL_FOODCATEGORY}`)
     return res.json()
 }
+
+// Search Call function by Search Names.
+export async function getMealsByName(query_name){
+    const URL_FOODNAME = `${BASE}/search.php?s=${encodeURIComponent(query_name)}`
+    const res = await fetch(`${URL_FOODNAME}`)
+    return res.json()
+}
+
+
+export async function getMealsByAreaFilter(query_area){
+    const URL_AREANAME = `${BASE}/filter.php?a=${encodeURIComponent(query_area)}`
+    const res = await fetch(`${URL_AREANAME}`)
+    return res.json()
+}
+
+export async function getMealsByIngredientsFilter(query_ingredients){
+    const URL_INAME = `${BASE}/filter.php?I=${encodeURIComponent(query_ingredients)}`
+    const res = await fetch(`${URL_INAME}`)
+    return res.json()   
+}
+
+

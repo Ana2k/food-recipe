@@ -5,7 +5,7 @@ import '../styles/MealCard.css'
 import '../styles/HomeScreen.css'
 import MealCard from "../components/MealCard";
 import avatar from '../assets/dummy-avatar.png'
-import {getAllCategories, getFoodByCategory} from '../network/api'
+import {getAllCategories, getMealsByCategory} from '../network/api'
 
 export default function HomeScreen() {
 
@@ -33,8 +33,8 @@ export default function HomeScreen() {
     //2_useEffect to show default as Pasta or All. 
     useEffect(() =>{
         const loader = selected === "All" 
-        ? () => getFoodByCategory("Pasta") 
-        : () => getFoodByCategory(selected)
+        ? () => getMealsByCategory("Pasta") 
+        : () => getMealsByCategory(selected)
 
         // You did not put the () => in the second selected. 
         //What this did was created a promise of a function and not fulfill it for line : loader().then
