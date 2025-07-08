@@ -7,11 +7,22 @@
     align-items : center;
 }
 .search-back-button{
-    background : none;
-    border : none;
-    font-size : 24px;
-    cursor : pointer;
-    margin-right : 16px;
+    background: #129575;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+.search-back-button:hover {
+    background: #0e7a5e;
 }
 .search-screen-header h1{
     font-size : 24px;

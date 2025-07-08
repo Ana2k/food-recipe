@@ -7,6 +7,7 @@ import '../styles/HomeScreen.css'
 import MealCard from "../components/MealCard";
 import avatar from '../assets/dummy-avatar.png'
 import {getAllCategories, getMealsByCategory} from '../network/api'
+import * as api from '../network/api'
 
 export default function HomeScreen() {
     const navigate = useNavigate()
@@ -26,21 +27,34 @@ export default function HomeScreen() {
     useEffect(() =>{
         getAllCategories().then(data =>{
             const CATEGORY_NAME = data.meals.map(k => k.strCategory)
-            setCategories(CATEGORY_NAME)
-            // Set first real category as default
-            if (CATEGORY_NAME.length > 0) {
-                setSelected(CATEGORY_NAME[0]);
-            }
+            setCategories(['All',...CATEGORY_NAME])
         })
         .catch(err => console.error("CATEGORY LOAD FAILURE",err));
     },[]);
 
     //2_useEffect to show default as Pasta or All. 
     useEffect(() =>{
-        if (!selected) return;
-        getMealsByCategory(selected)
-            .then(data => setMeals(data.meals))
-            .catch(err => console.error("MEAL LOAD FAILURE",err));
+        if(selected === "All") {
+            // Fetch all meals from all categories and flatten
+            getAllCategories().then(async data => {
+                const categories = data.meals.map(k => k.strCategory);
+                const allMealsArrays = await Promise.all(
+                    categories.map(cat => getMealsByCategory(cat).then(res => res.meals || []))
+                );
+                // Flatten and deduplicate by idMeal
+                const allMeals = Object.values(
+                    allMealsArrays.flat().reduce((map, meal) => {
+                        if(meal && meal.idMeal) map[meal.idMeal] = meal;
+                        return map;
+                    }, {})
+                );
+                setMeals(allMeals);
+            }).catch(err => console.error("ALL MEALS LOAD FAILURE",err));
+        } else {
+            getMealsByCategory(selected)
+                .then(data => setMeals(data.meals))
+                .catch(err => console.error("MEAL LOAD FAILURE",err));
+        }
     },[selected]);
 
 
@@ -96,7 +110,7 @@ export default function HomeScreen() {
             </div>
             {/* div : CATEGORY TABS with a nav tab. */}
             <nav className="home-screen-tabs">
-                {categories.map(category => (
+                {categories.map(category=>(
                     <button
                         key={category}
                         className={
@@ -104,7 +118,7 @@ export default function HomeScreen() {
                         }
                         onClick={() => setSelected(category)}
                     >
-                        {category}
+                        {category}    
                     </button>
                 ))}
             </nav>
