@@ -74,13 +74,11 @@ export default function SearchScreen(){
             searchCategoryFilter = Promise.resolve([]);
         }
 
-        const searchAreaFilter = areas.includes(query) 
-        ? api.getMealsByAreaFilter(query)
-        .then(data => data.meals || []) 
-        : Promise.resolve([])
+        // Remove area endpoint from search logic
+        // Only use endpoints that return full meal details
 
-        //Run all the API calls parallely
-        Promise.all([searchName, searchCategoryFilter, searchAreaFilter, searchIngredientsFilter])
+        // Run all the API calls in parallel
+        Promise.all([searchName, searchCategoryFilter, searchIngredientsFilter])
         .then(arrays => {
             // De-duplications
             const dedup = Object.values(
