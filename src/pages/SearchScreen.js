@@ -1,17 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom'
-import MealCard from './pages/MealCard'
-import * as api from './network/api.js'
-import '../styles/StyleScreen.css'
-import { getMealsByArea, getMealsByAreaFilter, getMealsByCategory, getMealsByName } from '../network/api.js';
+import {useNavigate,useLocation} from 'react-router-dom'
+import MealCard from '../components/MealCard.js'
+import * as api from '../network/api.js'
+import '../styles/SearchScreen.css'
 
 export default function SearchScreen(){
     // DECLARATIONS 
-    //Back-button
+    // get the location, then grab the state.query from HomeScreen.
 
+    //ERRORS : massive initial errors on state and location usage
+
+    const location = useLocation();
+    // Location takes the location from home -> if you type in the searchbox - it works 
+    // but from HomeScreen the initial query is not set correctly
+    // useLocation () --> gets you {pathname, search, hash, state, key};
+    const initialQuery = location.state?.query || '';
+    const navigate = useNavigate();
 
     //stateHooks -> query, results
-    const [query, setQuery] = useState('')
+    // query was not a string and gave a ton of errors!
+    const [query, setQuery] = useState(initialQuery)
     //Remember to use a blank array here!!
     const [results, setResults] = useState([])
     const [categories, setCategories] = useState([])
@@ -35,9 +43,9 @@ export default function SearchScreen(){
     //This is the main-search logic with parallel threading and 4 API calls in total. 
     //This is made to a= ; i= ; in the categories and so on...
     useEffect(() => {
-        if(query.trim()) {
+        if(query.trim()==="") {
             setResults([])
-            return 
+            return;
         }
 
         // create API calls for searchByName , searchByAreaFilter , searchByCategoryFilter 
@@ -52,7 +60,6 @@ export default function SearchScreen(){
         //Run all the API calls parallely
         Promise.all([searchName, searchCategoryFilter, searchAreaFilter, searchIngredientsFilter])
         .then(arrays => {
-
             //flatten our response array and de-duplicate it using mapping.
             const dedup = Object.values(
                 arrays.flat().reduce((map, meals) => {
@@ -64,18 +71,19 @@ export default function SearchScreen(){
             //final - filter : to make it lower case
             const filtered = dedup.filter(m => m.strInstructions?.toLowerCase().includes(query.toLowerCase()))
             setResults(filtered.length?filtered : dedup)
-            .catch(err => {
-                console.error("SEARCH ERROR",err)
-                setResults([])
-            })
-        },[query,categories,areas])
+        })
 
+        .catch(err => {
+            console.error("SEARCH ERROR",err)
+            setResults([])
+        })
+    },[query,categories,areas])
     //UI elements hook=up
     return (
         // HEADER+BackARROW
         <div className = "search-screen">
             <header className='search-screen-header'>
-                <button className="search-back-button" onClick={() => useNavigate(-1)}>
+                <button className="search-back-button" onClick={() => navigate(-1)}>
                     ←
                 </button>
                 <h1>Search Recipes.</h1>

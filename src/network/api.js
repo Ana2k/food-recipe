@@ -36,7 +36,7 @@ export async function getMealsByAreaFilter(query_area){
 }
 
 export async function getMealsByIngredientsFilter(query_ingredients){
-    const URL_INAME = `${BASE}/filter.php?I=${encodeURIComponent(query_ingredients)}`
+    const URL_INAME = `${BASE}/filter.php?i=${encodeURIComponent(query_ingredients)}`
     const res = await fetch(`${URL_INAME}`)
     return res.json()   
 }

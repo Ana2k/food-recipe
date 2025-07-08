@@ -1,6 +1,7 @@
 //Page component.
 //We make the API calls from here and connect the MealCard.js with the API using this page. 
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import '../styles/MealCard.css'
 import '../styles/HomeScreen.css'
 import MealCard from "../components/MealCard";
@@ -8,7 +9,8 @@ import avatar from '../assets/dummy-avatar.png'
 import {getAllCategories, getMealsByCategory} from '../network/api'
 
 export default function HomeScreen() {
-
+    const navigate = useNavigate()
+    const searchInputRef = useRef()
     //stateHooks
     //categories : for all the category names : "All","Seafood",...
     //selected : for which tab is currently active
@@ -70,8 +72,29 @@ export default function HomeScreen() {
 
             {/* div : SEARCH BAR */}
             <div className="home-screen-search">
-                <input type="text" placeholder="Search your favorite food."/>
-                <button>🎤︎︎</button>
+                <input 
+                    type="text" 
+                    placeholder="Search your favorite food."
+                    ref={searchInputRef}
+                    onKeyDown={e => {
+                        if(e.key === "Enter" || e.key ==="Space"){
+                            const term = e.target.value.trim()
+                            if(term){
+                                navigate('/search',{state: {query : term}})
+                            }
+                        }
+                    }}
+
+                />
+                <button 
+                    onClick = {() => {
+                            const term = searchInputRef.current.value.trim()
+                            if(term){
+                                navigate('/search',{state : {query : term}})
+                            }
+                        }   
+                    }
+                >🎤︎︎</button>
             </div>
             {/* div : CATEGORY TABS with a nav tab. */}
             <nav className="home-screen-tabs">
