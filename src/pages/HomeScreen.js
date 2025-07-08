@@ -26,23 +26,21 @@ export default function HomeScreen() {
     useEffect(() =>{
         getAllCategories().then(data =>{
             const CATEGORY_NAME = data.meals.map(k => k.strCategory)
-            //All - is the default tab
-            setCategories(['All',...CATEGORY_NAME])
+            setCategories(CATEGORY_NAME)
+            // Set first real category as default
+            if (CATEGORY_NAME.length > 0) {
+                setSelected(CATEGORY_NAME[0]);
+            }
         })
         .catch(err => console.error("CATEGORY LOAD FAILURE",err));
     },[]);
 
     //2_useEffect to show default as Pasta or All. 
     useEffect(() =>{
-        const loader = selected === "All" 
-        ? () => getMealsByCategory("Pasta") 
-        : () => getMealsByCategory(selected)
-
-        // You did not put the () => in the second selected. 
-        //What this did was created a promise of a function and not fulfill it for line : loader().then
-        // In next line so it becomes a constant API not a function - type error thus. 
-        loader().then(data => setMeals(data.meals))
-        .catch(err => console.error("MEAL LOAD FAILURE",err));
+        if (!selected) return;
+        getMealsByCategory(selected)
+            .then(data => setMeals(data.meals))
+            .catch(err => console.error("MEAL LOAD FAILURE",err));
     },[selected]);
 
 
@@ -98,7 +96,7 @@ export default function HomeScreen() {
             </div>
             {/* div : CATEGORY TABS with a nav tab. */}
             <nav className="home-screen-tabs">
-                {categories.map(category=>(
+                {categories.map(category => (
                     <button
                         key={category}
                         className={
@@ -106,7 +104,7 @@ export default function HomeScreen() {
                         }
                         onClick={() => setSelected(category)}
                     >
-                        {category}    
+                        {category}
                     </button>
                 ))}
             </nav>
