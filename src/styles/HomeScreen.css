@@ -1,97 +1,157 @@
-.home-screen{
-    padding :0 3px;
-
+/* HomeScreen Main Container */
+.home-screen {
+    padding: 0;
+    background: #fff;
 }
-.home-screen-header{
-    margin-top: 64px;
-    display : flex;
+
+/* Max-width container for header and grid */
+.home-screen-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header */
+.home-screen-header {
+    margin-top: 48px;
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 18px;
 }
-/* HomeScreen Title : Hello Jay! (h1) and What are you having today (p) and the avatar*/
-.home-screen-header h1{
-    font-family:"Poppins", sans-serif;
-    font-size : 24px;
-    font-weight: 600;
+.home-screen-header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.home-screen-header h1 {
+    font-family: "Poppins", sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
     line-height: 1.2;
-    margin:0 ;
+    margin: 0;
 }
-.home-screen-header p{
-    font-family:"Poppins", sans-serif;
-    font-size : 12px;
+.home-screen-header p {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
     color: #A9A9A9;
-    margin:4px 0 0 ;
+    margin: 4px 0 0;
 }
-.home-screen-avatar{
-    width: 40px;
-    height: 40px;
-    border-radius:10px;
+.home-screen-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-/* Search : search bar, input, button */
-.home-screen-search{
-    display:flex;
+
+/* Search Bar */
+.home-screen-search {
+    display: flex;
     align-items: center;
-    margin-top:30px;
+    margin: 32px 0 18px 0;
+    gap: 12px;
+    justify-content: center;
 }
-.home-screen-search input{
-    width : 255px;
-    height: 40px;
-    padding : 0 12px;
-    border: 1px solid #DDD;
-    border-radius: 10px;
-    font-family: 12px;
-    color: #333;
-    outline: none;
+.home-screen-search input {
+    width: 100%;
+    max-width: 420px;
+    height: 44px;
+    padding: 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 1.08rem;
+    background: #fafafa;
 }
-/* Mic Button */
-.home-screen-search button{
-    width : 40px;
-    height: 40px;
-    margin-left: 20px;
+.home-screen-search button {
+    width: 44px;
+    height: 44px;
     background-color: #129575;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: center;
     color: #FFF;
-    font-size: 20px;
-    cursor:pointer;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background 0.15s;
 }
-/* Category - Nav Bar */
-.home-screen-tabs{
-    display:flex;
+.home-screen-search button:hover {
+    background: #0e7a5e;
+}
+
+/* Category Nav Bar */
+.home-screen-tabs {
+    display: flex;
     align-items: center;
-    margin-top: 15px;
-    height: 51px;
-    gap : 24px;
+    gap: 10px;
     padding: 8px 0;
+    margin-bottom: 18px;
     overflow-x: auto;
-    margin-bottom: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: #e0e0e0 #fff;
+    -webkit-overflow-scrolling: touch;
+    border-bottom: 1px solid #f2f2f2;
 }
-/* Inactive individual tab. */
-.home-screen-tab{
+.home-screen-tabs::after {
+    content: '';
+    flex: 0 0 24px;
+    /* subtle fade at end for scroll cue */
+    background: linear-gradient(to right, rgba(255,255,255,0), #fff 80%);
+    pointer-events: none;
+}
+.home-screen-tab {
     background: transparent;
-    border:none;
-    font-family: "Poppins",sans-serif;
-    font-size: 12px;
-    color:#129575;
-    cursor:pointer;
-    margin-right: 24px;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    color: #129575;
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: background 0.15s, color 0.15s;
+    font-weight: 500;
+    white-space: nowrap;
+    margin: 0;
 }
-.home-screen-tab--active{
+.home-screen-tab:hover {
+    background: #e6f7f3;
+    color: #0e7a5e;
+}
+.home-screen-tab--active {
     background-color: #129575;
-    border-radius: 10px;
-    color:#FFFFFF;
-    padding: 12px 16px;
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(18,149,117,0.08);
 }
-/* Large grid for MealCards */
-.home-screen-grid{
+
+/* Responsive Grid for MealCards */
+.home-screen-grid {
     display: grid;
-    grid-template-columns: repeat(2,150px);
-    column-gap: 16px;
-    row-gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
     margin-top: 10px;
-    justify-content: center;
+    justify-items: center;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 32px;
+}
+
+@media (max-width: 700px) {
+    .home-screen-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .home-screen-search input {
+        max-width: 100%;
+    }
+    .home-screen-container {
+        padding: 0 8px;
+    }
+    .home-screen-grid {
+        gap: 14px;
+    }
 }

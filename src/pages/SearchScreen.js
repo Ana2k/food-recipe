@@ -43,14 +43,20 @@ export default function SearchScreen(){
     //This is the main-search logic with parallel threading and 4 API calls in total. 
     //This is made to a= ; i= ; in the categories and so on...
     useEffect(() => {
-        if(query.trim()==="") {
+        const ql = query.trim().toLowerCase()
+        if(!ql){
             setResults([])
             return;
         }
 
         // create API calls for searchByName , searchByAreaFilter , searchByCategoryFilter 
-        const searchName = api.getMealsByName(query).then(data => data.meals || [])
-        const searchIngredientsFilter = api.getMealsByIngredientsFilter(query).then(data => data.meals || [])
+        const searchName = api
+        .getMealsByName(query)
+        .then(data => data.meals || [])
+
+        const searchIngredientsFilter = api
+        .getMealsByIngredientsFilter(query)
+        .then(data => data.meals || [])
 
         // Enhance search Category :D
         const isCategory = categories.includes(query);
@@ -74,11 +80,33 @@ export default function SearchScreen(){
             searchCategoryFilter = Promise.resolve([]);
         }
 
+        //Enhance searchArea - including fuzzy matching for isArea etc.
+        const isArea = areas.some(a => a.toLowerCase().includes(ql))
+        let searchAreaFilter; 
+        if(isArea){
+            searchCategoryFilter = api.getMealsByAreaFilter(query).then(async data => {
+                //return null if no data on meals.
+                if(!data.meals)
+                {
+                    return [];
+                }  
+                // constants always end in semi-colon - dont forget them!
+                const detailsPromise = data.meals.map(m =>
+                    api.getMealsByName(m.strMeal)
+                    .then(res => res.meals ? res.meals[0] : null)
+                );
+                const details = await Promise.all(detailsPromise);
+                return details.filter(Boolean);
+            })
+        } else{
+            searchAreaFilter = Promise.resolve([]);
+        }
+
         // Remove area endpoint from search logic
         // Only use endpoints that return full meal details
 
         // Run all the API calls in parallel
-        Promise.all([searchName, searchCategoryFilter, searchIngredientsFilter])
+        Promise.all([searchName, searchCategoryFilter, searchAreaFilter, searchIngredientsFilter])
         .then(arrays => {
             // De-duplications
             const dedup = Object.values(
@@ -95,9 +123,9 @@ export default function SearchScreen(){
             const filtered = dedup.filter(m => {
                 // Check name, area, category, instructions
                 if ((m.strMeal && m.strMeal.toLowerCase().includes(ql)) ||
-                    (m.strArea && m.strArea.toLowerCase().includes(ql)) ||
-                    (m.strCategory && m.strCategory.toLowerCase().includes(ql)) ||
-                    (m.strInstructions && m.strInstructions.toLowerCase().includes(ql)))
+                    (m.strCategory || "").toLowerCase().includes(ql) ||
+                    (m.strArea || "").toLowerCase().includes(ql) ||
+                    (m.strInstructions || "").toLowerCase().includes(ql))
                     {
                     return true;
                     }

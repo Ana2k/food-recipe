@@ -25,7 +25,6 @@ export default function MealCard({meal, onClick}){
             {/* Meal Card Info : Title and Outline(Creator) */}
             <div className="mealCardInfo">
                 <h3 className="mealCardTitle">{meal.strMeal}</h3>
-                <p className="mealCardOutlin">By Chef Anushka</p>
             </div>
         </div>
     )
