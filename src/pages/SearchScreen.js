@@ -43,10 +43,6 @@ export default function SearchScreen(){
     //This is the main-search logic with parallel threading and 4 API calls in total. 
     //This is made to a= ; i= ; in the categories and so on...
     useEffect(() => {
-        if(!categories.length || !areas.length){
-            // we have not yet loaded lookups so bail out and return.
-            return
-        }
         if(query.trim()==="") {
             setResults([])
             return;
@@ -56,9 +52,31 @@ export default function SearchScreen(){
         const searchName = api.getMealsByName(query).then(data => data.meals || [])
         const searchIngredientsFilter = api.getMealsByIngredientsFilter(query).then(data => data.meals || [])
 
-        const searchCategoryFilter = categories.includes(query) ? api.getMealsByCategory(query).then(data => data.meals || [])
-        : Promise.resolve([])
-        const searchAreaFilter = areas.includes(query) ? api.getMealsByAreaFilter(query).then(data => data.meals || [])
+        // Enhance search Category :D
+        const isCategory = categories.includes(query);
+        let searchCategoryFilter; 
+        if(isCategory){
+            searchCategoryFilter = api.getMealsByCategory(query).then(async data => {
+                //return null if no data on meals.
+                if(!data.meals)
+                {
+                    return [];
+                }  
+                // constants always end in semi-colon - dont forget them!
+                const detailsPromise = data.meals.map(m =>
+                    api.getMealsByName(m.strMeal)
+                    .then(res => res.meals ? res.meals[0] : null)
+                );
+                const details = await Promise.all(detailsPromise);
+                return details.filter(Boolean);
+            })
+        } else{
+            searchCategoryFilter = Promise.resolve([]);
+        }
+
+        const searchAreaFilter = areas.includes(query) 
+        ? api.getMealsByAreaFilter(query)
+        .then(data => data.meals || []) 
         : Promise.resolve([])
 
         //Run all the API calls parallely
@@ -67,22 +85,47 @@ export default function SearchScreen(){
             // De-duplications
             const dedup = Object.values(
                 arrays.flat().reduce((map, meals) => {
-                    map[meals.idMeal] = meals
-                    return map
+                    if (meals && meals.idMeal) {
+                        map[meals.idMeal] = meals;
+                    }
+                    return map;
                 },{})
             )
 
             // Update the filter to rely on strInstructions+others as well..
-            const filtered = dedup.filter(m => 
-                (m.strInstructions)?.toLowerCase().includes(query.toLowerCase()) ||
-                (m.strCategory)?.toLowerCase().includes(query.toLowerCase()) ||
-                (m.strMeals)?.toLowerCase().includes(query.toLowerCase()) ||
-                (m.strArea)?.toLowerCase().includes(query.toLowerCase()) ||
-                (m.strTags || "")?.toLowerCase().includes(query.toLowerCase())
-            )
-            setResults(filtered.length?filtered : dedup)
-            // const filtered = dedup.filter(m => m.strInstructions?.toLowerCase().includes(query.toLowerCase()))
-            // setResults(filtered.length?filtered : dedup)
+            const ql = query.toLowerCase();
+            const filtered = dedup.filter(m => {
+                // Check name, area, category, instructions
+                if ((m.strMeal && m.strMeal.toLowerCase().includes(ql)) ||
+                    (m.strArea && m.strArea.toLowerCase().includes(ql)) ||
+                    (m.strCategory && m.strCategory.toLowerCase().includes(ql)) ||
+                    (m.strInstructions && m.strInstructions.toLowerCase().includes(ql)))
+                    {
+                    return true;
+                    }
+
+                // Check tags
+                if (m.strTags && 
+                    m.strTags.toLowerCase().split(',')
+                    .some(tag => tag.trim().includes(ql))) 
+                    {
+                    
+                        return true;
+                    }
+
+                // Check all ingredients
+                for (let i = 1; i <= 20; i++) {
+                    const ingredient = m[`strIngredient${i}`];
+                    if (ingredient && ingredient.toLowerCase().includes(ql)) 
+                        {
+                        return true;
+                        }
+                }
+
+                return false;
+            });
+
+            setResults(filtered);
         })
 
         .catch(err => {
