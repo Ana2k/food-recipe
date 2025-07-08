@@ -74,11 +74,11 @@ export default function SearchScreen(){
 
             // Update the filter to rely on strInstructions+others as well..
             const filtered = dedup.filter(m => 
-                m.strInstructions?.toLowerCase().includes(query.toLowerCase()) ||
-                m.strCategory?.toLowerCase().includes(query.toLowerCase()) ||
-                m.strMeal?.toLowerCase().includes(query.toLowerCase()) ||
-                m.strArea?.toLowerCase().includes(query.toLowerCase()) ||
-                m.strTags?.toLowerCase().includes(query.toLowerCase())
+                (m.strInstructions)?.toLowerCase().includes(query.toLowerCase()) ||
+                (m.strCategory)?.toLowerCase().includes(query.toLowerCase()) ||
+                (m.strMeals)?.toLowerCase().includes(query.toLowerCase()) ||
+                (m.strArea)?.toLowerCase().includes(query.toLowerCase()) ||
+                (m.strTags || "")?.toLowerCase().includes(query.toLowerCase())
             )
             setResults(filtered.length?filtered : dedup)
             // const filtered = dedup.filter(m => m.strInstructions?.toLowerCase().includes(query.toLowerCase()))
