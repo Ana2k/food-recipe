@@ -16,3 +16,9 @@ export async function getFoodByCategory(category){
     const res = await fetch(`${BASE}${URL_FOODCATEGORY}`)
     return res.json()
 }
+
+export async function searchMealsByName(query){
+    const URL_FOODNAME = `/search.php?s=${encodeURIComponent(query)}`
+    const res = await fetch(`${BASE}${URL_FOODNAME}`)
+    return res.json()
+}

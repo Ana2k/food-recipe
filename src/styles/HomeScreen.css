@@ -65,6 +65,10 @@
     align-items: center;
     margin-top: 15px;
     height: 51px;
+    gap : 24px;
+    padding: 8px 0;
+    overflow-x: auto;
+    margin-bottom: 16px;
 }
 /* Inactive individual tab. */
 .home-screen-tab{

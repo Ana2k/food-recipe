@@ -2,7 +2,6 @@
 //We make the API calls from here and connect the MealCard.js with the API using this page. 
 import React,{useState, useEffect} from "react";
 import '../styles/MealCard.css'
-//TODO(8) : improve the HomeScreen.css values
 import '../styles/HomeScreen.css'
 import MealCard from "../components/MealCard";
 import avatar from '../assets/dummy-avatar.png'
@@ -21,15 +20,9 @@ export default function HomeScreen() {
     const [meals,setMeals] = useState([])
 
     //1_useEffects() to run once and get all the data running.
+    //data.meals is [{ strCategory:'Beef'},...]
     useEffect(() =>{
-    //     "meals": [
-    // {
-    //   "strCategory": "Beef"
-    // },
-    // data.meals = all the strCategory of the meals that are incoming. 
-
         getAllCategories().then(data =>{
-            //data.meals is [{ strCategory:'Beef'},...]
             const CATEGORY_NAME = data.meals.map(k => k.strCategory)
             //All - is the default tab
             setCategories(['All',...CATEGORY_NAME])
@@ -37,12 +30,8 @@ export default function HomeScreen() {
         .catch(err => console.error("CATEGORY LOAD FAILURE",err));
     },[]);
 
-    //TODO(4) : useEffect to show default as seaFood. 
-    //TODO --> FIX ERRORS HERE. 
+    //2_useEffect to show default as Pasta or All. 
     useEffect(() =>{
-        //MASSIVE ERRORS HERE -> Logical Errors on the following : 
-        // loader().then(...) --> Giving it a promise but a promise is not a callable function, hence its not a function....
-        //take all the category
         const loader = selected === "All" 
         ? () => getFoodByCategory("Pasta") 
         : () => getFoodByCategory(selected)
