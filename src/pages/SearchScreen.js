@@ -43,6 +43,10 @@ export default function SearchScreen(){
     //This is the main-search logic with parallel threading and 4 API calls in total. 
     //This is made to a= ; i= ; in the categories and so on...
     useEffect(() => {
+        if(!categories.length || !areas.length){
+            // we have not yet loaded lookups so bail out and return.
+            return
+        }
         if(query.trim()==="") {
             setResults([])
             return;
@@ -54,13 +58,13 @@ export default function SearchScreen(){
 
         const searchCategoryFilter = categories.includes(query) ? api.getMealsByCategory(query).then(data => data.meals || [])
         : Promise.resolve([])
-        const searchAreaFilter = areas.includes(query) ? api.getMealsByAreaFilter(query).then(data => data.meals || []) 
+        const searchAreaFilter = areas.includes(query) ? api.getMealsByAreaFilter(query).then(data => data.meals || [])
         : Promise.resolve([])
 
         //Run all the API calls parallely
         Promise.all([searchName, searchCategoryFilter, searchAreaFilter, searchIngredientsFilter])
         .then(arrays => {
-            //flatten our response array and de-duplicate it using mapping.
+            // De-duplications
             const dedup = Object.values(
                 arrays.flat().reduce((map, meals) => {
                     map[meals.idMeal] = meals
@@ -68,9 +72,17 @@ export default function SearchScreen(){
                 },{})
             )
 
-            //final - filter : to make it lower case
-            const filtered = dedup.filter(m => m.strInstructions?.toLowerCase().includes(query.toLowerCase()))
+            // Update the filter to rely on strInstructions+others as well..
+            const filtered = dedup.filter(m => 
+                m.strInstructions?.toLowerCase().includes(query.toLowerCase()) ||
+                m.strCategory?.toLowerCase().includes(query.toLowerCase()) ||
+                m.strMeal?.toLowerCase().includes(query.toLowerCase()) ||
+                m.strArea?.toLowerCase().includes(query.toLowerCase()) ||
+                m.strTags?.toLowerCase().includes(query.toLowerCase())
+            )
             setResults(filtered.length?filtered : dedup)
+            // const filtered = dedup.filter(m => m.strInstructions?.toLowerCase().includes(query.toLowerCase()))
+            // setResults(filtered.length?filtered : dedup)
         })
 
         .catch(err => {
