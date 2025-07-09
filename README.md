@@ -3,7 +3,7 @@
 [Site Link](https://foodrecipes-mealdb.web.app)
 
 This is a responsive web-application based on the mealDB API.
-Users can voice-search a recipe by ingredient in the image, name and the category of the food-item. I implemented the voice-search using the speech-recognition API from npm react team. While basic react state-hooks and javascript mapping code was written for fetching and connecting APIs with the UI logics. 
+Users can search for recipes by name, category, or any word that appears in the **ingredient list or instructions**—for example, searching for "rice" will return any recipe where "rice" is an ingredient or mentioned in the instructions. Voice search is also supported via the mic button. I implemented the voice-search using the speech-recognition API from npm react team. While basic react state-hooks and javascript mapping code was written for fetching and connecting APIs with the UI logics. 
 Hope you have fun exploring the project! :)
 
 ---
@@ -21,7 +21,8 @@ Hope you have fun exploring the project! :)
 
 | Screenshot | Description |
 |---|---|
-| <img src="src/assets/searchScreenByIng.png" alt="Search by Ingredient and Voice" width="350"/> | **Search & Voice Assistant:** Demonstrates searching for recipes by ingredient using both text and voice input. |
+| <img src="src/assets/homeScreenAll.png" alt="Home Screen All" width="500"/> | **Home Screen:** Displays all available recipes across categories. |
+| <img src="src/assets/searchScreenByIng.png" alt="Search by Ingredient and Voice" width="500"/> | **Search & Voice Assistant:** Demonstrates searching for recipes by ingredient (e.g., "rice") using both text and voice input. The search will match any recipe where the word appears in the name, ingredient list, or instructions. |
 
 ---
 
@@ -137,8 +138,6 @@ This project is deployed using Firebase Hosting. To deploy your own:
    npm run build
    firebase deploy
    ```
-
-Or use the provided GitHub Actions workflow for automatic deployment on push to `main`.
 
 ---
 
