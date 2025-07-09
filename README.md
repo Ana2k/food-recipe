@@ -24,7 +24,7 @@ Hope you have fun exploring the project! :)
 _Displays all available recipes across categories._
 
 **Search & Voice Assistant:**  
-![Search by Ingredient and Voice](src/assets/searchScreenByIng.png)
+![Search by Ingredient and Voice](src/assets/searchScreenByIngVoice.png)
 _Demonstrates searching for recipes by ingredient (e.g., "rice") or by region(e.g., "indian") using both text and voice input. The search will match any recipe where the word appears in the name, ingredient list, area or categories ._
 
 ---
