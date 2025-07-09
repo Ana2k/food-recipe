@@ -80,7 +80,7 @@ export default function HomeScreen() {
             <div> 
                 <header className="home-screen-header">
 
-                    <div className="home-screen-header-content">
+                    <div>
                         <h1>
                             Hello Jay!
                         </h1>
@@ -89,15 +89,10 @@ export default function HomeScreen() {
                         </p>
                     </div>
 
-                    <div className="home-screen-avatar-section">
-                        <img className="home-screen-avatar"
-                            src={avatar}
-                            alt="Avatar"
-                        />
-                        <button className="home-screen-filter-button">
-                            🔍
-                        </button>
-                    </div>
+                    <img className="home-screen-avatar"
+                        src={avatar}
+                        alt="Avatar"
+                    />
                 </header>
             </div>
 
@@ -118,7 +113,6 @@ export default function HomeScreen() {
 
                 />
                 <button 
-                    className="home-screen-search-button"
                     onClick = {() => {
                             const term = searchInputRef.current.value.trim()
                             if(term){
@@ -128,7 +122,7 @@ export default function HomeScreen() {
                     }
                 >🎤︎︎</button>
             </div>
-            <div style={{ maxWidth: 320, margin: '0 auto 18px auto', textAlign: 'center', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="home-screen-dropdown">
                 <select
                     value={selected}
                     onChange={e => setSelected(e.target.value)}
@@ -153,25 +147,6 @@ export default function HomeScreen() {
                     </button>
                 ))}
             </nav>
-            {/* Category Multi-Select Dropdown */}
-            {/*
-            <div className="category-multiselect-container">
-                <label className="category-multiselect-label">Filter by Category (multi-select):</label>
-                <select
-                    multiple
-                    value={selectedCategories}
-                    onChange={e => {
-                        const options = Array.from(e.target.selectedOptions, option => option.value);
-                        setSelectedCategories(options);
-                    }}
-                    className="category-multiselect-select"
-                >
-                    {categories.map(category => (
-                        <option key={category} value={category}>{category}</option>
-                    ))}
-                </select>
-            </div>
-            */}
             
             {/* div : {Meal Card menu - items from MealCard.js} */}
             <div className="home-screen-grid">
