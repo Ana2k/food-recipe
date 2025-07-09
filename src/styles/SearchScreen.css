@@ -1,72 +1,94 @@
-/* Search-screen header+back arrow */
-.search-screen{
-    padding : 30px;
+.search-screen {
+  padding: 30px;
+  font-family: 'Poppins', sans-serif;
 }
-.search-screen-header{
-    display : flex;
-    align-items : center;
+
+.search-screen-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
 }
-.search-back-button{
-    background: #129575;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    margin-right: 16px;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
+
+.search-back-button {
+  background: #129575;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
 }
+
 .search-back-button:hover {
-    background: #0e7a5e;
+  background: #0e7a5e;
 }
-.search-screen-header h1{
-    font-size : 24px;
-    margin : 0;
+
+.search-screen-header h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 600;
 }
-/* SEARCH BAR for SEARCH SCREEN HEADER. */
-.search-screen-search{
-    display : flex;
-    margin : 24px 0 18px 0;
-    gap: 10px;
+
+/* SearchBar*/
+.search-screen-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
 }
-.search-screen-search input{
-    flex : 1;
-    height : 44px;
-    padding : 0 16px;
-    border : 1px solid #ccc;
-    border-radius: 12px;
-    font-size: 1.08rem;
+
+.search-screen-search input {
+  flex: 1;
+  height: 44px;
+  padding: 0 16px;
+  border: 2px solid #129575;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border-color 0.2s;
 }
+
+.search-screen-search input:focus {
+  border-color:  #e57373;
+}
+
 .search-screen-search button {
-    margin-left : 0;
-    width: 44px;
-    height: 44px;
-    background : #129575;
-    color : #fff;
-    border : none;
-    border-radius: 12px;
-    cursor : pointer;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: #129575;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
 }
-/* SEARCH Screen Results number and meal-cards.. */
-.search-screen-results{
-    font-weight: 600;
-    margin-bottom : 18px;
-    font-size: 1.1rem;
+
+.search-screen-search button:hover {
+  background: #0e7a5e;
 }
-.search-screen-grid{
-    display : grid;
-    grid-template-columns : repeat(auto-fit, minmax(240px,1fr));
-    gap: 24px;
-    padding: 8px 0 0 0;
-    justify-items: center;
+
+/* ---- Result count ---- */
+.search-screen-results {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
 }
-/*  */
+
+/*  MealCards */
+.search-screen-grid {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+  /* auto-fit as many 240px cards as will fit... */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  padding-top: 8px;
+}
