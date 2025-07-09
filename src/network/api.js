@@ -41,4 +41,12 @@ export async function getMealsByIngredientsFilter(query_ingredients){
     return res.json()   
 }
 
+export async function getMealById(id){
+    const URL_MEALID = `${BASE}/lookup.php?i=${id}`
+    const res = await fetch(`${URL_MEALID}`)
+    return res.json()
+}
+
+
+
 

@@ -58,6 +58,14 @@ export default function SearchScreen(){
         const searchIngredientsFilter = api
         .getMealsByIngredientsFilter(query)
         .then(data => data.meals || [])
+        .then(list =>
+            Promise.all(
+                list.map(m =>
+                    api.getMealById(m.idMeal).then(r => (r.meals ? r.meals[0] : null))
+                )
+            )
+        )
+        .then(results => results.filter(Boolean)); // Remove null values
 
         // Enhance search Category :D
         const isCategory = categories.includes(query);
@@ -85,13 +93,13 @@ export default function SearchScreen(){
         const isArea = areas.some(a => a.toLowerCase().includes(ql))
         let searchAreaFilter; 
         if(isArea){
-            searchCategoryFilter = api.getMealsByAreaFilter(query).then(async data => {
+            searchAreaFilter = api.getMealsByAreaFilter(query).then(async data => {
                 //return null if no data on meals.
                 if(!data.meals)
                 {
                     return [];
                 }  
-                // constants always end in semi-colon - dont forget them!
+                //dont forget the semi-colons!!
                 const detailsPromise = data.meals.map(m =>
                     api.getMealsByName(m.strMeal)
                     .then(res => res.meals ? res.meals[0] : null)

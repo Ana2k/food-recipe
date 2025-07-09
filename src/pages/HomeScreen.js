@@ -7,7 +7,7 @@ import '../styles/HomeScreen.css'
 import MealCard from "../components/MealCard";
 import avatar from '../assets/dummy-avatar.png'
 import {getAllCategories, getMealsByCategory} from '../network/api'
-import * as api from '../network/api'
+import * as api from '../network/api.js'
 import { VoiceButton } from '../voiceassistant/voiceService.js'
 
 export default function HomeScreen() {
