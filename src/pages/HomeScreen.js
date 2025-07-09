@@ -21,6 +21,7 @@ export default function HomeScreen() {
     const [selected, setSelected] = useState('All')
     
     const [meals,setMeals] = useState([])
+    const [selectedCategories, setSelectedCategories] = useState([])
 
     //1_useEffects() to run once and get all the data running.
     //data.meals is [{ strCategory:'Beef'},...]
@@ -34,7 +35,7 @@ export default function HomeScreen() {
 
     //2_useEffect to show default as Pasta or All. 
     useEffect(() =>{
-        if(selected === "All") {
+        if ((selected === "All" && selectedCategories.length === 0) || (selectedCategories.includes('All'))) {
             // Fetch all meals from all categories and flatten
             getAllCategories().then(async data => {
                 const categories = data.meals.map(k => k.strCategory);
@@ -50,12 +51,25 @@ export default function HomeScreen() {
                 );
                 setMeals(allMeals);
             }).catch(err => console.error("ALL MEALS LOAD FAILURE",err));
+        } else if (selectedCategories.length > 0) {
+            // Fetch meals for all selected categories and merge
+            Promise.all(
+                selectedCategories.map(cat => getMealsByCategory(cat).then(res => res.meals || []))
+            ).then(allMealsArrays => {
+                const allMeals = Object.values(
+                    allMealsArrays.flat().reduce((map, meal) => {
+                        if(meal && meal.idMeal) map[meal.idMeal] = meal;
+                        return map;
+                    }, {})
+                );
+                setMeals(allMeals);
+            }).catch(err => console.error("MULTI CATEGORY LOAD FAILURE",err));
         } else {
             getMealsByCategory(selected)
                 .then(data => setMeals(data.meals))
                 .catch(err => console.error("MEAL LOAD FAILURE",err));
         }
-    },[selected]);
+    },[selected, selectedCategories]);
 
 
     return(
@@ -66,7 +80,7 @@ export default function HomeScreen() {
             <div> 
                 <header className="home-screen-header">
 
-                    <div>
+                    <div className="home-screen-header-content">
                         <h1>
                             Hello Jay!
                         </h1>
@@ -75,10 +89,15 @@ export default function HomeScreen() {
                         </p>
                     </div>
 
-                    <img className="home-screen-avatar"
-                        src={avatar}
-                        alt="Avatar"
-                    />
+                    <div className="home-screen-avatar-section">
+                        <img className="home-screen-avatar"
+                            src={avatar}
+                            alt="Avatar"
+                        />
+                        <button className="home-screen-filter-button">
+                            🔍
+                        </button>
+                    </div>
                 </header>
             </div>
 
@@ -99,6 +118,7 @@ export default function HomeScreen() {
 
                 />
                 <button 
+                    className="home-screen-search-button"
                     onClick = {() => {
                             const term = searchInputRef.current.value.trim()
                             if(term){
@@ -107,6 +127,17 @@ export default function HomeScreen() {
                         }   
                     }
                 >🎤︎︎</button>
+            </div>
+            <div style={{ maxWidth: 320, margin: '0 auto 18px auto', textAlign: 'center', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <select
+                    value={selected}
+                    onChange={e => setSelected(e.target.value)}
+                    style={{ width: '100%', height: 40, borderRadius: 10, fontSize: '1rem', padding: '0 12px', border: '1.5px solid #e0e0e0', fontFamily: 'Poppins, sans-serif', color: '#222', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.03)' }}
+                >
+                    {categories.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                    ))}
+                </select>
             </div>
             {/* div : CATEGORY TABS with a nav tab. */}
             <nav className="home-screen-tabs">
@@ -122,6 +153,26 @@ export default function HomeScreen() {
                     </button>
                 ))}
             </nav>
+            {/* Category Multi-Select Dropdown */}
+            {/*
+            <div className="category-multiselect-container">
+                <label className="category-multiselect-label">Filter by Category (multi-select):</label>
+                <select
+                    multiple
+                    value={selectedCategories}
+                    onChange={e => {
+                        const options = Array.from(e.target.selectedOptions, option => option.value);
+                        setSelectedCategories(options);
+                    }}
+                    className="category-multiselect-select"
+                >
+                    {categories.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                    ))}
+                </select>
+            </div>
+            */}
+            
             {/* div : {Meal Card menu - items from MealCard.js} */}
             <div className="home-screen-grid">
                 {meals.map(meal =>(
