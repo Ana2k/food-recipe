@@ -19,10 +19,13 @@ Hope you have fun exploring the project! :)
 
 ## Demo / Screenshot
 
-| Screenshot | Description |
-|---|---|
-| <img src="src/assets/homeScreenAll.png" alt="Home Screen All" width="500"/> | **Home Screen:** Displays all available recipes across categories. |
-| <img src="src/assets/searchScreenByIng.png" alt="Search by Ingredient and Voice" width="500"/> | **Search & Voice Assistant:** Demonstrates searching for recipes by ingredient (e.g., "rice") using both text and voice input. The search will match any recipe where the word appears in the name, ingredient list, or instructions. |
+**Home Screen:**  
+![Home Screen All](src/assets/homeScreenAll.png)
+_Displays all available recipes across categories._
+
+**Search & Voice Assistant:**  
+![Search by Ingredient and Voice](src/assets/searchScreenByIng.png)
+_Demonstrates searching for recipes by ingredient (e.g., "rice") using both text and voice input. The search will match any recipe where the word appears in the name, ingredient list, or instructions._
 
 ---
 
