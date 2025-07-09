@@ -18,10 +18,10 @@ export function useVoiceRecognition({onResult}){
         }
     },[listening, transcript, onResult])
 
-    // Kick-off one single non-continous recording session.
+    // Kick-off one single non-continuous recording session.
     const startListening = () => {
         resetTranscript()
-        SpeechRecognition.startListening({ continous : false})
+        SpeechRecognition.startListening({ continuous: false })
     }
 
     return {
@@ -48,9 +48,10 @@ export function VoiceButton({onResult}) {
         <button
             className={listening ? 'mic mic--listening' : 'mic'}
             onClick={startListening}
-            aria-label = {listening ? 'Listening.. \n Click to restart' : 'Click to speak..'}
+            aria-label={listening ? 'Listening.. Click to restart' : 'Click to speak..'}
+            title={listening ? 'Listening... Click to stop' : 'Click to start voice search'}
         >
-        🎤︎
+        {listening ? '〇' : '🎤︎'}
         </button>
     )
 }
