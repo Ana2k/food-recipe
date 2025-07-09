@@ -15,8 +15,9 @@ export function useVoiceRecognition({onResult}){
     useEffect(() =>{
         if(!listening && transcript.trim() !== ''){
             onResult(transcript.trim())
+            resetTranscript()
         }
-    },[listening, transcript, onResult])
+    },[listening, transcript, onResult, resetTranscript])
 
     // Kick-off one single non-continuous recording session.
     const startListening = () => {
