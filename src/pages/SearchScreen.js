@@ -57,18 +57,17 @@ export default function SearchScreen(){
 
         const searchIngredientsFilter = api
         .getMealsByIngredientsFilter(query)
-        .then(data => data.meals || [])
-        .then(list =>
-            Promise.all(
-                list.map(m =>
-                    api.getMealById(m.idMeal).then(r => (r.meals ? r.meals[0] : null))
-                )
+        .then(d => d.meals || [])
+        .then(list => Promise.all(
+            list.map(m =>
+            api.getMealById(m.idMeal).then(r => r.meals[0])
             )
-        )
-        .then(results => results.filter(Boolean)); // Remove null values
+        ))
+        .then(fulls => fulls.filter(Boolean));
 
         // Enhance search Category :D
-        const isCategory = categories.includes(query);
+        const isCategory = categories.some(category => 
+            category.toLowerCase() === query.toLowerCase());
         let searchCategoryFilter; 
         if(isCategory){
             searchCategoryFilter = api.getMealsByCategory(query).then(async data => {
@@ -90,7 +89,8 @@ export default function SearchScreen(){
         }
 
         //Enhance searchArea - including fuzzy matching for isArea etc.
-        const isArea = areas.some(a => a.toLowerCase().includes(ql))
+        const isArea = areas.some(a => 
+            a.toLowerCase() === query.toLowerCase());
         let searchAreaFilter; 
         if(isArea){
             searchAreaFilter = api.getMealsByAreaFilter(query).then(async data => {
@@ -129,24 +129,27 @@ export default function SearchScreen(){
 
             // Update the filter to rely on strInstructions+others as well..
             const ql = query.toLowerCase();
+
+            
             const filtered = dedup.filter(m => {
                 // Check name, area, category, instructions
                 if ((m.strMeal && m.strMeal.toLowerCase().includes(ql)) ||
                     (m.strCategory || "").toLowerCase().includes(ql) ||
                     (m.strArea || "").toLowerCase().includes(ql) ||
-                    (m.strInstructions || "").toLowerCase().includes(ql))
+                    (m.strInstructions || "").toLowerCase().includes(ql) )
                     {
                     return true;
                     }
 
                 // Check tags
+                // match any tag substring without splittin
                 if (m.strTags && 
-                    m.strTags.toLowerCase().split(',')
-                    .some(tag => tag.trim().includes(ql))) 
+                    m.strTags.toLowerCase().split(',')) 
                     {
                     
                         return true;
                     }
+
 
                 // Check all ingredients
                 for (let i = 1; i <= 20; i++) {

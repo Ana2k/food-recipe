@@ -113,15 +113,6 @@ export default function HomeScreen() {
                     }}
 
                 />
-                {/* <button 
-                    onClick = {() => {
-                            const term = searchInputRef.current.value.trim()
-                            if(term){
-                                navigate('/search',{state : {query : term}})
-                            }
-                        }   
-                    }
-                >🎤︎︎</button> */}
                 <VoiceButton
                     onResult={term =>{
                         if(term){
