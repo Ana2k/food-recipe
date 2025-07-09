@@ -1,6 +1,6 @@
 # Food Recipe App
 
-[Live Demo →](https://foodrecipes-mealdb.web.app)
+[Site Link](https://foodrecipes-mealdb.web.app)
 
 This is a responsive web-application based on the mealDB API.
 Users can voice-search a recipe by ingredient in the image, name and the category of the food-item. I implemented the voice-search using the speech-recognition API from npm react team. While basic react state-hooks and javascript mapping code was written for fetching and connecting APIs with the UI logics. 
