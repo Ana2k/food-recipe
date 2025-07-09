@@ -55,7 +55,7 @@ food-recipe/
 - **Browse:** Home page shows all recipes. Scroll or use category tabs/dropdown.
 - **Filter:** Select a category to filter recipes.
 - **Search:** Type in the search bar to find recipes by name, ingredient, or tag.
-- **Voice Search:** Click the mic button and speak your query. (Supported in Chrome/Safari)
+- **Voice Search:** Click the mic button and speak your query. (**Only supported in Chrome/Safari**)
 - **View Details:** (Planned) Click a recipe card to view full details, instructions, and video.
 
 ---
@@ -125,22 +125,7 @@ Builds the app for production to the `build/` folder.
 
 ## Deployment
 
-This project is deployed using Firebase Hosting. To deploy your own:
-
-1. Install Firebase CLI:
-   ```bash
-   npm install -g firebase-tools
-   ```
-2. Login and initialize (if not already):
-   ```bash
-   firebase login
-   firebase init hosting
-   ```
-3. Deploy:
-   ```bash
-   npm run build
-   firebase deploy
-   ```
+This project is deployed using Firebase Hosting. 
 
 ---
 
