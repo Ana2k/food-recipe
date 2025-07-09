@@ -10,18 +10,16 @@ Hope you have fun exploring the project! :)
 
 ## 📸 Demo / Screenshot
 
-- ![Home Screen - All Recipes](src/assets/homeScreenAll.png)
-  - _Home Screen displaying all available recipes across categories._
-- ![Home Screen - Miscellaneous Category](src/assets/homeScreenMiscellaneous.png)
-  - _Home Screen filtered to the "Miscellaneous" category, showing category-based filtering._
-- ![Search by Ingredient](src/assets/searchScreenByIng.png)
-  - _Search Screen with results filtered by a specific ingredient._
-- ![Search by Type](src/assets/searchScreenByType.png)
-  - _Search Screen with results filtered by a type or category._
-- ![Search by Ingredient (Alternate)](src/assets/searchScreenByIngredient.png)
-  - _Another view of the Search Screen focused on searching by ingredient._
-- ![Search by Region](src/assets/searchScreenSearchByRegion.png)
-  - _Search Screen with results filtered by region or area._
+> **Note:** This app supports voice search! Click the <kbd>🎤</kbd> mic button in the search bar to search recipes by voice (Chrome/Safari supported).
+
+| Screenshot | Description |
+|---|---|
+| <img src="src/assets/homeScreenAll.png" alt="Home Screen All" width="350"/> | **Home Screen:** Displays all available recipes across categories. |
+| <img src="src/assets/homeScreenMiscellaneous.png" alt="Home Screen Miscellaneous" width="350"/> | **Home Screen (Miscellaneous):** Shows recipes filtered to the "Miscellaneous" category. |
+| <img src="src/assets/searchScreenByIng.png" alt="Search by Ingredient" width="350"/> | **Search by Ingredient:** Results filtered by a specific ingredient. |
+| <img src="src/assets/searchScreenByType.png" alt="Search by Type" width="350"/> | **Search by Type:** Results filtered by a type or category. |
+| <img src="src/assets/searchScreenByIngredient.png" alt="Search by Ingredient Alt" width="350"/> | **Search by Ingredient (Alt):** Alternate view of ingredient-based search. |
+| <img src="src/assets/searchScreenSearchByRegion.png" alt="Search by Region" width="350"/> | **Search by Region:** Results filtered by region or area. |
 
 ---
 
