@@ -3,6 +3,7 @@ import {useNavigate,useLocation} from 'react-router-dom'
 import MealCard from '../components/MealCard.js'
 import * as api from '../network/api.js'
 import '../styles/SearchScreen.css'
+import { VoiceButton } from '../voiceassistant/voiceService.js'
 
 export default function SearchScreen(){
     // DECLARATIONS 
@@ -177,7 +178,12 @@ export default function SearchScreen(){
                     value={query}
                     onChange={(inp => setQuery(inp.target.value))}
                 />
-                <button>🎤︎︎</button>
+                {/* Updated this VoiceButton! */}
+                <VoiceButton
+                    onResult={term =>{
+                        setQuery(term);
+                    }}
+                />
             </div>
 
             <div className='search-screen-results'>

@@ -8,6 +8,7 @@ import MealCard from "../components/MealCard";
 import avatar from '../assets/dummy-avatar.png'
 import {getAllCategories, getMealsByCategory} from '../network/api'
 import * as api from '../network/api'
+import { VoiceButton } from '../voiceassistant/voiceService.js'
 
 export default function HomeScreen() {
     const navigate = useNavigate()
@@ -112,7 +113,7 @@ export default function HomeScreen() {
                     }}
 
                 />
-                <button 
+                {/* <button 
                     onClick = {() => {
                             const term = searchInputRef.current.value.trim()
                             if(term){
@@ -120,7 +121,14 @@ export default function HomeScreen() {
                             }
                         }   
                     }
-                >🎤︎︎</button>
+                >🎤︎︎</button> */}
+                <VoiceButton
+                    onResult={term =>{
+                        if(term){
+                            navigate('/search',{state: {query : term}})
+                        }
+                    }}
+                />
             </div>
             <div className="home-screen-dropdown">
                 <select

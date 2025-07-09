@@ -1,0 +1,29 @@
+/*Mic button */
+.mic {
+    width: 40px;
+    height: 40px;
+    background-color: #129575;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+/* Change mic colour?*/
+.mic--listening {
+    background-color: #0f7a63;
+  }
+
+.mic-browser-not-supported {
+    color: #a00;
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    border: 1px solid #a00;
+    border-radius: 4px;
+    background: #fee;
+    max-width: 200px;
+  }
